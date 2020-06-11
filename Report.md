@@ -20,11 +20,13 @@ The task is episodic, and in order to solve the environment, your agent must get
 
 I've used the Deep Q-Learning algorithm to train the agent to navigate the environment and pick up yellow bananas while avoiding blue bananas. The Deep Q-Learning algorithm represents the optimal action-value function as a neural network (instead of a Q-table). 
 
-Unfortunately, reinforcement learning is notoriously unstable when neural networks are used to represent the action values. Fortunately, the Deep Q-Learning algorithm can address these instabilities by using two key features: Experience Replay and Fixed Q-Targets.
+As we have learned in the course, reinforcement learning is notoriously unstable when neural networks are used to represent the action values. Fortunately, the Deep Q-Learning algorithm can address these instabilities by using two key features: Experience Replay and Fixed Q-Targets.
 
 When the agent interacts with the environment, the sequence of experience tuples can be highly correlated. The naive Q-learning algorithm that learns from each of these experience tuples in sequential order runs the risk of getting swayed by the effects of this correlation. By instead keeping track of a replay buffer and using experience replay to sample from the buffer at random, we can prevent action values from oscillating or diverging catastrophically. In this case, I've used a replay buffer that retains the 100,000 most recent experience tuples.
 
 The Deep Q-Learning algorithm uses two separate networks with identical architectures. This is referred to as Fixed Q-Targets. Without fixed Q-targets, we would encounter a harmful form of correlation, whereby we shift the parameters of the network based on a constantly moving target. The target Q-Network's weights are updated less often than the primary Q-Network. In this case, I update the target Q-Network's weights every 4 steps.
+
+For the neural networks, I've chosen a 2-layer fully-connected architecture, each layer having 64 neurons. The input size is 37 for the state dimensions (velocity, direction, ray-based perception of objects, etc.) and it maps to an output size of 4, for each possible action (forward, backward, left, right). The activation functions are RELUs. Dropout and/or BatchNorm layers could be used for regularization.
 
 
 ### Results
